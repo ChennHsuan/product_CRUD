@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!--ICON CDN-->
+   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+   <!--CSS-->
+   <link rel="stylesheet" href="../static/scss/all.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+   <title>追蹤商品</title>
+</head>
+
+<body>
+   <header class="bg-secondary text-white">
+      <div class="container">
+         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <!--LOGO-->
+            <a class="navbar-brand" href="home.html">
+               <img class="bi me-2" src="../static/images/icon_1.png" alt="hopsellIcon" width="30" height="30">
+            </a>
+            <!--商品分類-->
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+               <li><a href="#" class="nav-link px-2 text-white">商品分類1</a></li>
+               <li><a href="#" class="nav-link px-2 text-white">商品分類2</a></li>
+               <li><a href="#" class="nav-link px-2 text-white">商品分類3</a></li>
+               <li><a href="#" class="nav-link px-2 text-white">商品分類4</a></li>
+               <li><a href="#" class="nav-link px-2 text-white">商品分類5</a></li>
+               <li><a href="#" class="nav-link px-2 text-white">商品分類6</a></li>
+            </ul>
+            <!--登出按鈕-->
+            <div class="text-end">
+               <a href="home.html" type="button" class="btn btn-secondary ">登出</a>
+               <a href="register.html" type="button" class="btn btn-secondary">註冊</a>
+            </div>
+         </div>
+      </div>
+   </header>
+   <!-- 搜尋列 -->
+   <div class="navbar ">
+      <div class="container">
+         <!--LOGO-->
+         <a href="home.html"><img src="https://upload.cc/i1/2021/08/13/xDSmVg.png" alt="hopsellIcon" height="32"></a>
+         <!--搜尋-->
+         <div>
+            <div class="container-fluid">
+               <form class="d-flex">
+                  <input class="form-control" type="search" placeholder="搜尋商品" aria-label="Search">
+                  <button class="btn btn-outline-success px- me-2" type="submit">Search</button>
+               </form>
+            </div>
+         </div>
+         <div class="d-flex">
+            <a href="user_add.html" class="btn fw-bold btn-danger px-4 me-2">出售</a>
+         </div>
+      </div>
+   </div>
+
+
+
+
+
+   <div class="container pt-1 ">
+      <div class="d-flex justify-content-center align-items-center">
+         <button class="btn btn-outline-dark m-4" onclick="history.back()">關閉頁面</button>
+         <div>
+            <p class="h2 pt-2 ">你今天想賣出什麼商品？</p>
+         </div>
+
+      </div>
+   </div>
+
+   <div class="container">
+      <div class="row d-flex justify-content-center" id="productAdd">
+         <div class="col-md-4 mb-4 px-3">
+            <div class="mx-5">
+               <label for="formFileLg" class="form-label fs-4">選擇照片A</label>
+               <el-upload action="http://localhost:9090/files/upload" :on-success="filesUploadSuccess">
+                  <el-button type="primary">點擊上傳</el-button>
+               </el-upload>
+               <el-image :src="form.productImgA" :preview-src-list="[form.productImgA]"></el-image>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <hr class="d-block d-md-none my-6 my-md-0">
+            <h2 class="h4 fw-bold mb-4 mb-md-6">商品內容</h2>
+            <!--form-->
+            <form novalidate="">
+         
+               <div class="mb-3">
+                  <label for="" class="form-label  h6 text-secondary">選擇分類<span class="text-danger ms-1">*</span>
+                  </label>
+                  <select v-model="form.categoryId" class="form-select" name="分類">
+                     <option disabled="">選擇分類</option>
+                     <option value="時尚衣裝">時尚衣裝</option>
+                     <option value="精品配件">精品配件</option>
+                     <option value="3C家電">3C家電</option>
+                     <option value="書籍雜誌">書籍雜誌</option>
+                     <option value="娛樂休閒">娛樂休閒</option>
+                     <option value="居家生活">居家生活</option>
+                  </select>
+                  <!---->
+               </div>
+               <v-form @submit="onSubmit" v-slot="{errors}" class="mb-3">
+                  <label for="" class="form-label h6 text-secondary">商品名稱 <span class="text-danger ms-1">*</span>
+                  </label>
+                  <v-field v-model="form.productName" type="text" class="form-control" placeholder="請輸入商品名稱" name="商品名稱"
+                     :rules="isRequired">
+                  </v-field>
+                  <!---->
+                  <error-message name="商品名稱"></error-message>
+                  
+               </v-form>
+               <h2 class="h4 fw-bold mb-4 mb-md-6">關於此商品</h2>
+               <div class="mb-3">
+                  <label for="name" class="form-label h6 text-secondary"> 新舊程度 <span class="text-danger ms-1">*</span>
+                  </label>
+                  <select v-model="form.productCondition" class="form-select" name="新舊程度">
+                     <option disabled="">選擇分類</option>
+                     <option value="全新">全新</option>
+                     <option value="幾乎全新">幾乎全新</option>
+                     <option value="狀況良好">狀況良好</option>
+                     <option value="狀況尚可">狀況尚可</option>
+                  </select>
+                  <!---->
+               </div>
+               <div class="mb-3">
+                  <label for="" class="form-label h6 text-secondary">
+                     價格<span class="text-danger ms-1">*</span>
+                  </label>
+                  <input v-model="form.productPrice" type="number" class="form-control" placeholder="NT$ 設定價位"
+                     name="價格">
+                  <!---->
+               </div>
+               <div class="mb-3 ">
+                  <label for="message" class="form-label h6 text-secondary">商品描述</label>
+                  <!--textarea 不能換行-->
+                  <textarea v-model="form.productContent" name="" id="message" class="form-control"
+                     style="height: 200px" placeholder="描述您所銷售的產品，並包含買家可能感興趣的任何細節。用戶們喜歡有故事的產品！"></textarea>
+               </div>
+               <div class="text-end">
+                  <button type="button" class="btn btn-primary" @click="addProduct">立即刊登</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+
+
+
+
+   <!-- 置底 -->
+   <div class="bg-secondary text-light mt-5">
+      <div class="container">
+         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3  border-top ">
+            <p class="col-md-4 mb-0 text-reset">© 2021 Company, Inc</p>
+
+            <a href="/"
+               class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+               <svg class="bi me-2" width="40" height="32">
+                  <use xlink:href="#bootstrap"></use>
+               </svg>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+               <li class="nav-item"><a href="#" class="nav-link px-2 text-reset">Home</a></li>
+               <li class="nav-item"><a href="#" class="nav-link px-2 text-reset">Features</a></li>
+               <li class="nav-item"><a href="#" class="nav-link px-2 text-reset">Pricing</a></li>
+               <li class="nav-item"><a href="#" class="nav-link px-2 text-reset">FAQs</a></li>
+               <li class="nav-item"><a href="#" class="nav-link px-2 text-reset">About</a></li>
+            </ul>
+         </footer>
+      </div>
+   </div>
+
+
+
+
+
+
+
+
+   <!-- bootstrap JS CDN-->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+   <!-- Vue CDN -->
+   <script src="https://unpkg.com/vue@next"></script>
+   <!-- VeeValidate CDN -->
+   <script src="https://unpkg.com/vee-validate@next"></script>
+   <!-- axios -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <!-- Element 引入樣式 -->
+   <link rel="stylesheet" href="https://unpkg.com/element-plus@1.0.2-beta.71/lib/theme-chalk/index.css">
+   <!-- Element 引入组件庫 -->
+   <script src="https://unpkg.com/element-plus@1.0.2-beta.71/lib/index.full.js"></script>
+   <!-- sweetalert2 -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+   <script type="module">
+      console.log(VeeValidate);
+      const app = Vue.createApp({
+
+         // 驗證套件
+         components: {
+            VForm: VeeValidate.Form,
+            VField: VeeValidate.Field,
+            ErrorMessage: VeeValidate.ErrorMessage,
+         },
+
+         data() {
+            return {
+               image: '',
+               form: { "sellerId": 1, },
+               baseUrl: 'http://localhost:9090/product',
+            }
+         },
+         methods: {
+            // 驗證測試
+            onSubmit(value) {
+               console.log(value)
+            },
+            isRequired(value) {
+               if (!value) {
+                  return '此欄是必填'
+               }
+               return true;
+            },
+            // 刊登商品
+            addProduct() {
+               Swal.fire({
+                  title: '確定要刊登嗎',
+                  showCancelButton: true,
+                  confirmButtonText: `確認`,
+                  cancelButtonText: '取消',
+               }).then((result) => {
+                  if (result.isConfirmed) {
+                     axios.post(this.baseUrl, this.form)
+                        .then((res) => {
+                           Swal.fire('商品已刊登', '', 'success')
+                        })
+                        .catch((err) => {
+                           console.log(err);
+                           Swal.fire('失敗', '', 'info')
+                        });
+                     this.form = {};
+                  }
+               })
+            },
+            // 存圖片url
+            filesUploadSuccess(res) {
+               console.log(res.data)
+               sessionStorage.setItem("upload", JSON.stringify(res.data))  // 緩存用戶資料
+               this.form.productImgA = res.data
+            },
+         },
+         // 
+         mounted() {
+            let url = sessionStorage.getItem("upload") || "{}"
+            this.form.productImgA = JSON.parse(url)
+         }
+      });
+      app.use(ElementPlus);
+      app.mount('#productAdd')
+
+   </script>
+
+
+
+</body>
+
+</html>

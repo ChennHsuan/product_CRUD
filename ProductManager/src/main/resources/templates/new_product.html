@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Create new Product</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+
+<body>
+	<div align="center">
+		<h1>Create new Product</h1>
+		<br>
+		<form action="#" th:action="@{/save}" th:object="${product}" 
+		enctype="multipart/form-data" method="POST">
+			<table border="1" cellpadding="10">
+				<tr>
+					<td>Product Name:</td>
+					<td><input type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>Brand:</td>
+					<td><input type="text" th:field="*{brand}" /></td>
+				</tr>
+				<tr>
+					<td>Made in:</td>
+					<td><input type="text" th:field="*{madein}" /></td>
+				</tr>
+				<tr>
+					<td>Price</td>
+					<td><input type="text" th:field="*{price}" /></td>
+				</tr>
+				<tr>
+					<td>Image</td>
+					<td><input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg" /></td>
+				</tr>
+				<tr>
+					<td>Image Preview</td>
+					<td><img id="imgPreview" alt="img preview" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit">Save</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+			$('#fileImage').change(function() {
+				showImage(this);
+				console.log("1234");
+				
+			});
+
+			function showImage(fileInput){
+				var file = fileInput.files[0];
+				var reader = new FileReader();
+				reader.onload = function(e){
+					$('#imgPreview').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
+
+		});
+
+		
+	</script>
+</body>
+
+</html>
